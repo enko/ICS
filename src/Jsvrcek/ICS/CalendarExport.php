@@ -163,6 +163,11 @@ class CalendarExport
                     
                     if ($event->getOrganizer())
                         $this->stream->addItem($event->getOrganizer()->__toString());
+
+                    if (is_array($event->getCategories()))
+                    {
+                        $this->stream->addItem('CATEGORIES:'.implode(',',$event->getCategories()));
+                    }
                 
                 $this->stream->addItem('END:VEVENT');
             }

@@ -122,6 +122,11 @@ class CalendarEvent
     private $url;
 
     /**
+     * @var array $categories
+     */
+    private $categories;
+
+    /**
      * @return string
      */
     public function getUid()
@@ -511,5 +516,39 @@ class CalendarEvent
     public function getUrl()
     {
         return $this->url;
+    }
+
+    /**
+     * 
+     * @param string $category A category for an event
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function addCategory($category)
+    {
+        if (!is_arary($this->categories))
+        {
+            $this->categories = [];
+        }
+        $this->categories[] = $category;
+        return $this;
+    }
+
+    /**
+     * 
+     * @param array $categories Array of categories
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setCategories($categories)
+    {
+        $this->categories = $categories;
+        return $this;
+    }
+
+    /**
+     * @return string All categories
+     */
+    public function getCategories()
+    {
+        return $this->categories;
     }
 }
