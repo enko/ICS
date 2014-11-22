@@ -525,7 +525,7 @@ class CalendarEvent
      */
     public function addCategory($category)
     {
-        if (!is_arary($this->categories))
+        if (!is_array($this->categories))
         {
             $this->categories = [];
         }
