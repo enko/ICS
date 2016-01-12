@@ -1,7 +1,9 @@
+[![Build status](https://travis-ci.org/jasvrcek/ICS.svg?branch=master)](https://travis-ci.org/jasvrcek/ICS)
+
 ICS
 ===
 
-Object-oriented php library for creating (and eventually reading) .ics iCal files
+Object-oriented php library for creating (and eventually reading) .ics iCal files.
 
 * This project does not yet support all functionality of the .ics format.
 

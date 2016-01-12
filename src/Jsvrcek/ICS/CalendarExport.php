@@ -2,6 +2,8 @@
 
 namespace Jsvrcek\ICS;
 
+use Jsvrcek\ICS\Model\Recurrence\RecurrenceRule;
+
 use Jsvrcek\ICS\Utility\Formatter;
 
 use Jsvrcek\ICS\Model\Calendar;
@@ -130,7 +132,12 @@ class CalendarExport
                 $this->stream->addItem('BEGIN:VEVENT')
                     ->addItem('UID:'.$event->getUid())
                     ->addItem('DTSTART:'.$this->formatter->getFormattedUTCDateTime($event->getStart()))
-                    ->addItem('DTEND:'.$this->formatter->getFormattedUTCDateTime($event->getEnd()))
+                    ->addItem('DTEND:'.$this->formatter->getFormattedUTCDateTime($event->getEnd()));
+                
+                    if ($event->getRecurrenceRule() instanceof RecurrenceRule)
+                        $this->stream->addItem($event->getRecurrenceRule()->__toString());
+                
+                $this->stream->addItem('STATUS:'.$event->getStatus())
                     ->addItem('SUMMARY:'.$event->getSummary())
                     ->addItem('DESCRIPTION:'.$event->getDescription());
                 
@@ -144,12 +151,19 @@ class CalendarExport
                             ->addItem('LOCATION'.$location->getUri().$location->getLanguage().':'.$location->getName());
                     }
                     
+                    if ($event->getPriority() > 0 && $event->getPriority() <= 9)
+                        $this->stream->addItem('PRIORITY:'.$event->getPriority());
+
                     if ($event->getGeo())
                         $this->stream->addItem('GEO:'.$event->getGeo()->getLatitude().';'.$event->getGeo()->getLongitude());
 
                     if ($event->getUrl())
                         $this->stream->addItem('URL:'.$event->getUrl());
                     
+
+                    if ($event->getTimestamp())
+                        $this->stream->addItem('DTSTAMP:'.$this->formatter->getFormattedUTCDateTime($event->getTimestamp()));
+
                     if ($event->getCreated())
                         $this->stream->addItem('CREATED:'.$this->formatter->getFormattedUTCDateTime($event->getCreated()));
                     
